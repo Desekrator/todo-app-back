@@ -7,38 +7,34 @@ use App\Serializer\TaskSerializer;
 
 class TaskService
 {
+    private $taskSerializer;
+    private $dataFilePath;
 
-    private $todoSerializer;
-
-    public function __construct(
-        TaskSerializer $todoSerializer
-    )
+    public function __construct(TaskSerializer $taskSerializer, string $dataFilePath)
     {
-        $this->todoSerializer = $todoSerializer;
+        $this->taskSerializer = $taskSerializer;
+        $this->dataFilePath = $dataFilePath;
     }
 
-    public function getAllTasks()
+    public function getAllTasks(): array
     {
-        $fileContent = file_get_contents(__DIR__ . '/../Data/db.json');
-        return $this->todoSerializer->deserialize($fileContent);
+        $fileContent = file_get_contents($this->dataFilePath);
+        return $this->taskSerializer->deserialize($fileContent);
     }
 
-    public function addTask($newTask)
+    public function addTask(Task $newTask): bool
     {
-        $fileContent = file_get_contents(__DIR__ . '/../Data/db.json');
-        $storedData = json_decode($fileContent, true);
+        $storedData = $this->loadDataFromFile();
 
-        $storedData[] = $newTask;
-        file_put_contents(__DIR__ . '/../Data/db.json', json_encode($storedData));
+        $storedData[] = $newTask->toArray();
+        $this->saveDataToFile($storedData);
+
         return true;
-
     }
 
-    public function removeTodo($taskId)
+    public function removeTask(int $taskId): void
     {
-        $fileContent = file_get_contents(__DIR__ . '/../Data/db.json');
-        $storedData = json_decode($fileContent, true);
-
+        $storedData = $this->loadDataFromFile();
 
         foreach ($storedData as $key => $task) {
             if ($task['id'] == $taskId) {
@@ -47,29 +43,31 @@ class TaskService
             }
         }
 
-        $jsonData = json_encode(array_values($storedData), JSON_PRETTY_PRINT);
-        file_put_contents(__DIR__ . '/../Data/db.json', $jsonData);
-
-
+        $this->saveDataToFile(array_values($storedData));
     }
 
-    public function updateTask($actualTask)
+    public function updateTask(Task $updatedTask): void
     {
-        $fileContent = file_get_contents(__DIR__ . '/../Data/db.json');
-        $storedData = json_decode($fileContent, true);
+        $storedData = $this->loadDataFromFile();
 
         foreach ($storedData as &$task) {
-            if ($task['id'] === $actualTask['id']) {
-                $task['title'] = $actualTask['title'];
-                $task['description'] = $actualTask['description'];
-                $task['status'] = $actualTask['status'];
-                $task['priority'] = $actualTask['priority'];
+            if ($task['id'] === $updatedTask->getId()) {
+                $task = $updatedTask->toArray();
                 break;
             }
         }
 
-        file_put_contents(__DIR__ . '/../Data/db.json', json_encode($storedData, JSON_PRETTY_PRINT));
-
+        $this->saveDataToFile($storedData);
     }
 
+    private function loadDataFromFile(): array
+    {
+        $fileContent = file_get_contents($this->dataFilePath);
+        return json_decode($fileContent, true) ?: [];
+    }
+
+    private function saveDataToFile(array $data): void
+    {
+        file_put_contents($this->dataFilePath, json_encode($data, JSON_PRETTY_PRINT));
+    }
 }
