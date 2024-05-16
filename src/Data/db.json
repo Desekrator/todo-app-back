@@ -1,37 +1,23 @@
 [
     {
-        "id": "f8d4793b-746e-42ca-865f-1f1ebb5b137f",
-        "title": "asdf1111",
-        "description": "asdd222",
+        "id": "f4b8bb00-8566-4388-8fa9-5442eb9b06d2",
+        "title": "Prueba 1",
+        "description": "Prueba 1 detallada",
         "status": "progress",
+        "priority": "high"
+    },
+    {
+        "id": "c2807cc1-7ab3-4969-a706-1e560fb4023f",
+        "title": "Prueba 2",
+        "description": "Prueba 2 detallada",
+        "status": "finished",
         "priority": "low"
     },
     {
-        "id": "a663a80b-9fe8-4099-a62b-f302aa215a5c",
-        "title": "adfasdfd",
-        "description": "asdfasf",
+        "id": "0178413c-304e-4151-9e0d-d91943334187",
+        "title": "Prueba 3",
+        "description": "Prueba 3 detallada",
         "status": "finished",
-        "priority": "high"
-    },
-    {
-        "id": "a663a80b-9fe8-4099-a62b-f302aa215a5c",
-        "title": "adfasdf324",
-        "description": "asdfasf2344",
-        "status": "finished",
-        "priority": "high"
-    },
-    {
-        "id": "2e21a039-2c9c-4805-94f2-cc43c3ea1992",
-        "title": "ddfd",
-        "description": "dfd",
-        "status": "empty",
-        "priority": "medium"
-    },
-    {
-        "id": "e8975a6e-2de2-44d6-b384-63967f526189",
-        "title": "2222",
-        "description": "222",
-        "status": "progress",
         "priority": "high"
     }
 ]
