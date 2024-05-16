@@ -3,61 +3,57 @@
 namespace App\Controller;
 
 
-use App\Model\Todo;
-use App\Service\TodoService;
+use App\Model\Task;
+use App\Service\TaskService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TodoController extends AbstractController
 {
 
-    private TodoService $todoService;
+    private TaskService $taskService;
 
-    public function __construct(TodoService $todoService)
+    public function __construct(TaskService $todoService)
     {
-        $this->todoService = $todoService;
+        $this->taskService = $todoService;
     }
 
     /**
-     * @Route("/todo",methods={"GET"})
+     * @Route("/task",methods={"GET"})
      */
-    public function getAllTodos(TodoService $todo)
+    public function getAllTasks(TaskService $taskService)
     {
-        return $this->json($todo->getAllTodos());
+        return $this->json($taskService->getAllTodos());
     }
 
     /**
-     * @Route("/addTodo",methods={"GET", "POST"})
+     * @Route("/addTask",methods={"GET", "POST"})
      */
-    public function addTodo(Request $request, TodoService $todo)
+    public function addTask(Request $request, TaskService $taskService)
     {
         $data = json_decode($request->getContent(), true);
-        return $this->json($todo->addTodo($data));
+        return $this->json($taskService->addTodo($data), Response::HTTP_CREATED);
     }
 
     /**
      * @param $id
-     * @Route("/todo/{id}",methods={"DELETE"})
+     * @Route("/task/{id}",methods={"DELETE"})
      */
-    public function removeTodo($id, TodoService $todo)
+    public function removeTask($id, TaskService $taskService)
     {
-
-//        var_dump($id);
-
-//        $todo->removeTodo($id);
-//        echo($this->json($todo->getAllTodos()));
-        return $this->json($todo->removeTodo($id));
+        return $this->json($taskService->removeTodo($id));
     }
 
     /**
-     * @Route("/editTodo",methods={"PUT"})
+     * @Route("/editTask",methods={"GET","POST"})
      */
-    public function editTodo(Request $request, TodoService $todo)
+    public function editTask(Request $request, TaskService $taskService)
     {
+        $requestData = json_decode($request->getContent(), true);
 
-        $data = json_decode($request->getContent(), true);
-        $todo->updateTodo();
-//        return $this->json($todo->getAllTodos());
+        $taskService->updateTodo($requestData);
+        return $this->json("Edit correct");
     }
 }

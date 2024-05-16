@@ -7,15 +7,8 @@
         "priority": "low"
     },
     {
-        "id": "87efd620-4603-438b-b75c-6f37dc985254",
-        "title": "dssss",
-        "description": "adsf",
-        "status": "empty",
-        "priority": "high"
-    },
-    {
         "id": "a663a80b-9fe8-4099-a62b-f302aa215a5c",
-        "title": "adfasdf",
+        "title": "adfasdfd",
         "description": "asdfasf",
         "status": "finished",
         "priority": "high"
@@ -35,9 +28,9 @@
         "priority": "medium"
     },
     {
-        "id": "a82e486d-09ea-4bcf-94af-4c89f05c1bbd",
-        "title": "ddd",
-        "description": "ddd",
+        "id": "e8975a6e-2de2-44d6-b384-63967f526189",
+        "title": "2222",
+        "description": "222",
         "status": "progress",
         "priority": "high"
     }

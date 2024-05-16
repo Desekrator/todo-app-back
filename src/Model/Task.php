@@ -5,7 +5,7 @@ namespace App\Model;
 use App\Enum\PriorityEnum;
 use App\Enum\StatusEnum;
 
-class Todo
+class Task
 {
     private $id;
     private $title;

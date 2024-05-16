@@ -2,16 +2,16 @@
 
 namespace App\Service;
 
-use App\Model\Todo;
-use App\Serializer\TodoSerializer;
+use App\Model\Task;
+use App\Serializer\TaskSerializer;
 
-class TodoService
+class TaskService
 {
 
     private $todoSerializer;
 
     public function __construct(
-        TodoSerializer $todoSerializer
+        TaskSerializer $todoSerializer
     )
     {
         $this->todoSerializer = $todoSerializer;
