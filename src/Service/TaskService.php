@@ -17,60 +17,58 @@ class TaskService
         $this->todoSerializer = $todoSerializer;
     }
 
-    public function getAllTodos()
+    public function getAllTasks()
     {
         $fileContent = file_get_contents(__DIR__ . '/../Data/db.json');
         return $this->todoSerializer->deserialize($fileContent);
     }
 
-    public function addTodo($todo)
+    public function addTask($newTask)
     {
         $fileContent = file_get_contents(__DIR__ . '/../Data/db.json');
-        $data = json_decode($fileContent, true);
+        $storedData = json_decode($fileContent, true);
 
-        $data[] = $todo;
-        file_put_contents(__DIR__ . '/../Data/db.json', json_encode($data));
+        $storedData[] = $newTask;
+        file_put_contents(__DIR__ . '/../Data/db.json', json_encode($storedData));
         return true;
 
     }
 
-    public function removeTodo($id)
+    public function removeTodo($taskId)
     {
         $fileContent = file_get_contents(__DIR__ . '/../Data/db.json');
-        $data = json_decode($fileContent, true);
+        $storedData = json_decode($fileContent, true);
 
 
-        foreach ($data as $key => $producto) {
-            if ($producto['id'] == $id) {
-                unset($data[$key]);
+        foreach ($storedData as $key => $task) {
+            if ($task['id'] == $taskId) {
+                unset($storedData[$key]);
                 break;
             }
         }
 
-//        return $ok;
-        $jsonData = json_encode(array_values($data), JSON_PRETTY_PRINT);
-//
+        $jsonData = json_encode(array_values($storedData), JSON_PRETTY_PRINT);
         file_put_contents(__DIR__ . '/../Data/db.json', $jsonData);
 
 
     }
 
-    public function updateTodo($actualTodo)
+    public function updateTask($actualTask)
     {
         $fileContent = file_get_contents(__DIR__ . '/../Data/db.json');
-        $data = json_decode($fileContent, true);
+        $storedData = json_decode($fileContent, true);
 
-        foreach ($data as &$todo) {
-            if ($todo['id'] === $actualTodo['id']) {
-                $todo['title'] = $actualTodo['title'];
-                $todo['description'] = $actualTodo['description'];
-                $todo['status'] = $actualTodo['status'];
-                $todo['priority'] = $actualTodo['priority'];
+        foreach ($storedData as &$task) {
+            if ($task['id'] === $actualTask['id']) {
+                $task['title'] = $actualTask['title'];
+                $task['description'] = $actualTask['description'];
+                $task['status'] = $actualTask['status'];
+                $task['priority'] = $actualTask['priority'];
                 break;
             }
         }
 
-        file_put_contents(__DIR__ . '/../Data/db.json', json_encode($data, JSON_PRETTY_PRINT));
+        file_put_contents(__DIR__ . '/../Data/db.json', json_encode($storedData, JSON_PRETTY_PRINT));
 
     }
 

@@ -25,7 +25,7 @@ class TodoController extends AbstractController
      */
     public function getAllTasks(TaskService $taskService)
     {
-        return $this->json($taskService->getAllTodos());
+        return $this->json($taskService->getAllTasks());
     }
 
     /**
@@ -34,7 +34,7 @@ class TodoController extends AbstractController
     public function addTask(Request $request, TaskService $taskService)
     {
         $data = json_decode($request->getContent(), true);
-        return $this->json($taskService->addTodo($data), Response::HTTP_CREATED);
+        return $this->json($taskService->addTask($data), Response::HTTP_CREATED);
     }
 
     /**
@@ -53,7 +53,7 @@ class TodoController extends AbstractController
     {
         $requestData = json_decode($request->getContent(), true);
 
-        $taskService->updateTodo($requestData);
+        $taskService->updateTask($requestData);
         return $this->json("Edit correct");
     }
 }
