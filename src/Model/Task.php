@@ -93,4 +93,26 @@ class Task
         return $this;
     }
 
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'title' => $this->getTitle(),
+            'description' => $this->getDescription(),
+            'status' => $this->getStatus(),
+            'priority' => $this->getPriority(),
+        ];
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            $data['id'] ?? null,
+            $data['title'] ?? null,
+            $data['description'] ?? null,
+            $data['status'] ?? null,
+            $data['priority'] ?? null
+        );
+    }
+
 }

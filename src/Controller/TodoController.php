@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Model\Task;
 use App\Service\TaskService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,7 +35,14 @@ class TodoController extends AbstractController
     public function addTask(Request $request, TaskService $taskService)
     {
         $data = json_decode($request->getContent(), true);
-        return $this->json($taskService->addTask($data), Response::HTTP_CREATED);
+
+        $addedTask = $taskService->addTask(Task::fromArray($data));
+
+        if ($addedTask) {
+            return new JsonResponse(['message' => 'Task updated successfully']);
+        }
+
+        return new JsonResponse(['message' => 'Task not created'], 404);
     }
 
     /**
@@ -43,7 +51,12 @@ class TodoController extends AbstractController
      */
     public function removeTask($id, TaskService $taskService)
     {
-        return $this->json($taskService->removeTodo($id));
+        $isTaskDeleted = $taskService->removeTask($id);
+        if ($isTaskDeleted) {
+            return new JsonResponse(['message' => 'Task deleted successfully']);
+        }
+
+        return new JsonResponse(['message' => 'Task not deleted']);
     }
 
     /**
@@ -53,7 +66,12 @@ class TodoController extends AbstractController
     {
         $requestData = json_decode($request->getContent(), true);
 
-        $taskService->updateTask($requestData);
-        return $this->json("Edit correct");
+        $isTaskUpdated = $taskService->updateTask(Task::fromArray($requestData));
+
+        if ($isTaskUpdated) {
+            return new JsonResponse(['message' => 'Task updated successfully']);
+        }
+
+        return new JsonResponse(['message' => 'Task not updated'], 404);
     }
 }

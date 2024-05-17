@@ -32,32 +32,39 @@ class TaskService
         return true;
     }
 
-    public function removeTask(int $taskId): void
+    public function removeTask(string $taskId): bool
     {
         $storedData = $this->loadDataFromFile();
-
+        $isTaskDeleted = false;
         foreach ($storedData as $key => $task) {
             if ($task['id'] == $taskId) {
                 unset($storedData[$key]);
+                $isTaskDeleted = true;
                 break;
             }
         }
 
         $this->saveDataToFile(array_values($storedData));
+
+        return $isTaskDeleted;
     }
 
-    public function updateTask(Task $updatedTask): void
+    public function updateTask(Task $updatedTask): bool
     {
         $storedData = $this->loadDataFromFile();
 
+        $isTaskUpdated = false;
         foreach ($storedData as &$task) {
             if ($task['id'] === $updatedTask->getId()) {
                 $task = $updatedTask->toArray();
+                $isTaskUpdated = true;
                 break;
             }
         }
 
         $this->saveDataToFile($storedData);
+
+        return $isTaskUpdated;
     }
 
     private function loadDataFromFile(): array
